@@ -14,7 +14,12 @@ const Navbar = () => {
                 ColorSense
               </span>
             </div>
-            <div className="flex items-center">
+            <div className="flex items-center space-x-2">
+              <a
+                href="https://www.buymeacoffee.com/nabeelc"
+                target="_blank">
+                <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" className='!w-36 !h-8 !opacity-60 hover:!opacity-80' />
+              </a>
               <button
                 onClick={toggleTheme}
                 className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"

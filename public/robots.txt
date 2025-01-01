@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://colorsense.app/sitemap.xml 
+Sitemap: https://colorsense.pages.dev/sitemap.xml 
