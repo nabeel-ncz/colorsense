@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Copy, Download, CheckCircle } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { ColorHarmony, ColorMode, generateEnhancedPalette } from '../../utils/auto-palette';
 
 interface PalettePreviewProps {
   colors: {
@@ -10,10 +11,39 @@ interface PalettePreviewProps {
     neutral: string;
     base: string;
   };
+  primaryColor: string;
+  onPaletteChange: (colors: PalettePreviewProps['colors']) => void;
 }
 
-const PalettePreview = ({ colors }: PalettePreviewProps) => {
+const PalettePreview = ({ colors, primaryColor, onPaletteChange }: PalettePreviewProps) => {
   const [copied, setCopied] = useState(false);
+  const [harmonyType, setHarmonyType] = useState<ColorHarmony>('complementary');
+  const [colorMode, setColorMode] = useState<ColorMode>('light');
+  const [includeAccessible, setIncludeAccessible] = useState(false);
+
+  useEffect(() => {
+    regeneratePalette(colorMode, harmonyType, includeAccessible);
+  }, [primaryColor]);
+
+  const regeneratePalette = (
+    colorMode: ColorMode,
+    harmonyType: ColorHarmony,
+    includeAccessible: boolean
+  ) => {
+    const newPalette = generateEnhancedPalette(primaryColor, {
+      harmonyType,
+      mode: colorMode,
+      includeAccessible,
+    });
+    const paletteToUse = colorMode === 'light' ? newPalette.light : newPalette.dark!;
+    onPaletteChange({
+      primary: paletteToUse.primary,
+      secondary: paletteToUse.secondary[0] || colors.secondary,
+      accent: paletteToUse.accent[0] || colors.accent,
+      neutral: paletteToUse.neutral[0] || colors.neutral,
+      base: paletteToUse.base[0] || colors.base,
+    });
+  };
 
   const cssVariables = `
 :root {
@@ -43,7 +73,7 @@ const PalettePreview = ({ colors }: PalettePreviewProps) => {
   };
 
   return (
-    <motion.div 
+    <motion.div
       className="dark:bg-white/5 bg-gray-50/90 backdrop-blur-md rounded-xl p-6"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -52,7 +82,7 @@ const PalettePreview = ({ colors }: PalettePreviewProps) => {
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Preview</h3>
         <div className="flex gap-2">
-          <button 
+          <button
             onClick={handleCopyCSS}
             className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-white/10 rounded-lg hover:bg-gray-200 dark:hover:bg-white/20 transition-colors text-gray-700 dark:text-white"
           >
@@ -63,7 +93,7 @@ const PalettePreview = ({ colors }: PalettePreviewProps) => {
             )}
             <span>{copied ? 'Copied!' : 'Copy CSS'}</span>
           </button>
-          <button 
+          <button
             onClick={handleExport}
             className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-white/10 rounded-lg hover:bg-gray-200 dark:hover:bg-white/20 transition-colors text-gray-700 dark:text-white"
           >
@@ -72,10 +102,65 @@ const PalettePreview = ({ colors }: PalettePreviewProps) => {
           </button>
         </div>
       </div>
+      <div className="mb-6 space-y-4">
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
+              Harmony Type
+            </label>
+            <select
+              value={harmonyType}
+              onChange={(e) => {
+                setHarmonyType(e.target.value as ColorHarmony);
+                regeneratePalette(colorMode, e.target.value as ColorHarmony, includeAccessible);
+              }}
+              className="w-full text-gray-900 dark:text-white rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2"
+            >
+              <option value="complementary">Complementary</option>
+              <option value="analogous">Analogous</option>
+              <option value="triadic">Triadic</option>
+              <option value="split-complementary">Split Complementary</option>
+              <option value="tetradic">Tetradic</option>
+              <option value="monochromatic">Monochromatic</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
+              Color Mode
+            </label>
+            <select
+              value={colorMode}
+              onChange={(e) => {
+                setColorMode(e.target.value as ColorMode);
+                regeneratePalette(e.target.value as ColorMode, harmonyType, includeAccessible);
+              }}
+              className="w-full text-gray-900 dark:text-white rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2"
+            >
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+            </select>
+          </div>
+        </div>
+        <div className="flex items-center">
+          <input
+            type="checkbox"
+            id="accessible"
+            checked={includeAccessible}
+            onChange={(e) => {
+              setIncludeAccessible(e.target.checked);
+              regeneratePalette(colorMode, harmonyType, e.target.checked);
+            }}
+            className="rounded border-gray-300 dark:border-gray-600 text-primary focus:ring-primary"
+          />
+          <label htmlFor="accessible" className="ml-2 text-sm text-gray-700 dark:text-gray-200">
+            Include Accessible Variants
+          </label>
+        </div>
+      </div>
       <div className="space-y-6">
         <div className="grid grid-cols-5 gap-2 h-24">
           {Object.values(colors).map((color, i) => (
-            <div 
+            <div
               key={i}
               className="rounded-lg"
               style={{ backgroundColor: color }}

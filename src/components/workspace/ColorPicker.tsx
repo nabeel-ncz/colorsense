@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Palette, Pipette, Sliders } from 'lucide-react';
 import { motion } from 'framer-motion';
 import ColorInput from './color-picker/ColorInput';
@@ -7,12 +7,16 @@ import ColorPreview from './color-picker/ColorPreview';
 import { hexToRgb, rgbToHex } from '../../utils/color';
 import { HuePicker, AlphaPicker } from "react-color";
 
-const ColorPicker = () => {
+const ColorPicker: React.FC<{ setPrimaryColor: React.Dispatch<React.SetStateAction<string>> }> = ({ setPrimaryColor }) => {
   const [hex, setHex] = useState('#3B82F6');
   const [rgb, setRgb] = useState({ r: 59, g: 130, b: 246 });
   const [alpha, setAlpha] = useState(1);
   const [pickerMode, setPickerMode] = useState<'default' | 'eyedropper'>('default');
   const [showSliders, setShowSliders] = useState(false);
+
+  useEffect(() => {
+    setPrimaryColor(hex);
+  }, [hex]);
 
   const handleRgbChange = (channel: 'r' | 'g' | 'b', value: number) => {
     setRgb(prev => ({ ...prev, [channel]: value }));
