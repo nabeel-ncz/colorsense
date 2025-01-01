@@ -5,7 +5,7 @@ import ColorInput from './color-picker/ColorInput';
 import RGBInputs from './color-picker/RGBInputs';
 import ColorPreview from './color-picker/ColorPreview';
 import { hexToRgb, rgbToHex } from '../../utils/color';
-import { HuePicker, AlphaPicker } from "react-color";
+import { HuePicker, AlphaPicker, PhotoshopPicker } from "react-color";
 
 const ColorPicker: React.FC<{ setPrimaryColor: React.Dispatch<React.SetStateAction<string>> }> = ({ setPrimaryColor }) => {
   const [hex, setHex] = useState('#3B82F6');
@@ -105,14 +105,50 @@ const ColorPicker: React.FC<{ setPrimaryColor: React.Dispatch<React.SetStateActi
             alpha={alpha}
           />
           {showSliders ? (
-            <RGBInputs
-              r={rgb.r}
-              g={rgb.g}
-              b={rgb.b}
-              onChange={handleRgbChange}
-            />
+            <>
+              <PhotoshopPicker
+                className='!w-full !h-[10.2rem]'
+                styles={{
+                  default: {
+                    picker: {
+                      background: "#ffffff00",
+                      boxShadow: "none",
+                      border: "none"
+                    },
+                    head: {
+                      display: "none"
+                    },
+                    controls: {
+                      display: "none"
+                    },
+                    hue: {
+                      width:"30%",
+                      height: "134px",
+                      border: "none",
+                      borderRadius: "0.5rem"
+                    },
+                    saturation: {
+                      width:"70%",
+                      height: "134px",
+                      border: "none",
+                      borderRadius: "0.5rem"
+                    }
+                  }
+                }}
+                color={hex}
+                onChange={(color) => {
+                  handleHexChange(color.hex);
+                }}
+              />
+            </>
           ) : (
             <div className="w-full flex flex-col gap-2">
+              <RGBInputs
+                r={rgb.r}
+                g={rgb.g}
+                b={rgb.b}
+                onChange={handleRgbChange}
+              />
               <HuePicker
                 color={hex}
                 onChange={(color) => handleHexChange(color.hex)}
