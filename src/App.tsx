@@ -7,6 +7,7 @@ import FloatingObjects from './components/FloatingObjects';
 import GradientBackground from './components/GradientBackground';
 import { brandPalettes, presetPalettes } from './data/palettes';
 import { ThemeProvider } from './context/ThemeContext';
+import Footer from './components/Footer';
 
 function App() {
   return (
@@ -56,6 +57,7 @@ function App() {
               />
             </Routes>
           </main>
+          <Footer />
         </div>
       </ThemeProvider>
     </BrowserRouter>
