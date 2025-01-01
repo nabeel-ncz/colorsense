@@ -18,7 +18,7 @@ const Navbar = () => {
               <a
                 href="https://www.buymeacoffee.com/nabeelc"
                 target="_blank">
-                <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" className='!w-36 !h-8 !opacity-60 hover:!opacity-80' />
+                <img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me A Coffee" className='!w-36 !h-8 !opacity-70 hover:!opacity-80' />
               </a>
               <button
                 onClick={toggleTheme}
