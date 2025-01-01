@@ -32,7 +32,7 @@ const Hero = () => {
               <Button size="lg" className="text-lg">
                 Explore palettes
               </Button>
-              <Button variant="secondary" size="lg" className="text-lg">
+              <Button variant="secondary" size="lg" className="text-lg text-gray-900 dark:text-white">
                 Learn more
               </Button>
             </div>
