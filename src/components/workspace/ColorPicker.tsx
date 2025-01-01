@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Pipette, Sliders } from 'lucide-react';
 import { motion } from 'framer-motion';
 import ColorInput from './color-picker/ColorInput';
 import RGBInputs from './color-picker/RGBInputs';
 import ColorPreview from './color-picker/ColorPreview';
+import { hexToRgb, rgbToHex } from '../../utils/color';
 
 const ColorPicker = () => {
   const [hex, setHex] = useState('#3B82F6');
@@ -25,15 +26,15 @@ const ColorPicker = () => {
   };
 
   return (
-    <div className="bg-white/5 backdrop-blur-md rounded-xl p-6">
+    <div className="dark:bg-white/5 bg-gray-50/90 backdrop-blur-md rounded-xl p-6">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-xl font-semibold text-white">Color Picker</h3>
+        <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Color Picker</h3>
         <div className="flex gap-2">
-          <button className="p-2 hover:bg-white/10 rounded-lg transition-colors">
-            <Pipette className="w-5 h-5 text-white/80" />
+          <button className="p-2 hover:bg-gray-100 dark:hover:bg-white/10 rounded-lg transition-colors">
+            <Pipette className="w-5 h-5 text-gray-700 dark:text-white/80" />
           </button>
-          <button className="p-2 hover:bg-white/10 rounded-lg transition-colors">
-            <Sliders className="w-5 h-5 text-white/80" />
+          <button className="p-2 hover:bg-gray-100 dark:hover:bg-white/10 rounded-lg transition-colors">
+            <Sliders className="w-5 h-5 text-gray-700 dark:text-white/80" />
           </button>
         </div>
       </div>
