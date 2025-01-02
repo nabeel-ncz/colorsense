@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
+Allow: /brand-palettes
+Allow: /curated-collections
 
-Sitemap: https://colorsense.app/sitemap.xml 
+# Crawl-delay: 10
+
+Sitemap: https://colorsense.pages.dev/sitemap.xml 
