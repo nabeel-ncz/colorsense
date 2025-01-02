@@ -2,7 +2,6 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
-import { imagetools } from 'vite-imagetools'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -29,27 +28,19 @@ export default defineConfig({
           }
         ]
       }
-    }),
-    imagetools({
-      defaultDirectives: new URLSearchParams({
-        format: 'webp',
-        quality: '80'
-      })
     })
   ],
-  optimizeDeps: {
-    exclude: ['lucide-react'],
-  },
   build: {
+    // Generate source maps for better debugging
+    sourcemap: true,
+    // Improve chunking strategy
     rollupOptions: {
       output: {
         manualChunks: {
-          'framer-motion': ['framer-motion'],
-          'color-utils': ['./src/utils/color.ts', './src/utils/auto-palette.ts'],
-          'react-color': ['react-color']
+          'vendor': ['react', 'react-dom', 'react-router-dom'],
+          'ui': ['framer-motion', 'lucide-react'],
         }
       }
-    },
-    chunkSizeWarningLimit: 1000
+    }
   }
 });
