@@ -1,13 +1,16 @@
 import PaletteCard from './PaletteCard';
 import { ColorPalette } from '../types';
+import { useNavigate } from 'react-router-dom';
 
 interface PaletteGridProps {
   title: string;
   description: string;
   palettes: ColorPalette[];
+  path?: string;
 }
 
-const PaletteGrid = ({ title, description, palettes }: PaletteGridProps) => {
+const PaletteGrid = ({ title, description, palettes, path = 'brand-palettes' }: PaletteGridProps) => {
+  const nav = useNavigate();
   return (
     <section className="py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -26,6 +29,7 @@ const PaletteGrid = ({ title, description, palettes }: PaletteGridProps) => {
         </div>
         <div className="mt-12 text-center">
           <button
+            onClick={() => { nav(path) }}
             className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full 
             text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 
             dark:from-indigo-500 dark:to-purple-500 dark:hover:from-indigo-600 dark:hover:to-purple-600 

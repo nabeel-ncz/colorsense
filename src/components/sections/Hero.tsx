@@ -29,11 +29,21 @@ const Hero = () => {
               Discover curated color collections for your next design project. From trending palettes to timeless combinations.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="text-lg">
-                Explore palettes
+              <Button onClick={() => {
+                window.scrollTo({
+                  top: ((window.innerHeight * 2) + 200),
+                  behavior: 'smooth'
+                });
+              }} size="lg" className="text-lg">
+                Explore Palettes
               </Button>
-              <Button variant="secondary" size="lg" className="text-lg text-gray-900 dark:text-white">
-                Learn more
+              <Button onClick={() => {
+                window.scrollTo({
+                  top: window.innerHeight,
+                  behavior: 'smooth'
+                });
+              }} variant="secondary" size="lg" className="text-lg text-gray-900 dark:text-white">
+                Create My Own Palette
               </Button>
             </div>
           </motion.div>
