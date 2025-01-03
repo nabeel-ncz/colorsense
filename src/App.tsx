@@ -6,7 +6,6 @@ import PaletteGrid from './components/PaletteGrid';
 import FloatingObjects from './components/FloatingObjects';
 import GradientBackground from './components/GradientBackground';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { brandPalettes, presetPalettes } from './data/palettes';
 import { ThemeProvider } from './context/ThemeContext';
 import { HelmetProvider } from 'react-helmet-async'
 import Footer from './components/Footer';
@@ -14,6 +13,7 @@ import Loading from './pages/Loading';
 const NotFound = lazy(() => import('./pages/NotFound'));
 const BrandPalettes = lazy(() => import('./pages/BrandPalettes'));
 const CuratedCollections = lazy(() => import('./pages/CuratedCollections'));
+import { brandPalettes, presetPalettes, extendedBrandPalettes, extendedPresetPalettes } from './data/palettes';
 
 function App() {
   return (
@@ -51,7 +51,7 @@ function App() {
                       <BrandPalettes
                         title="Premium Brand Palettes"
                         description="Discover the color schemes behind the world's most recognized brands."
-                        palettes={brandPalettes}
+                        palettes={extendedBrandPalettes}
                       />
                     </Suspense>
                   }
@@ -63,7 +63,7 @@ function App() {
                       <CuratedCollections
                         title="Curated Collections"
                         description="Hand-picked color combinations for your next creative project."
-                        palettes={presetPalettes}
+                        palettes={extendedPresetPalettes}
                       />
                     </Suspense>
                   }
